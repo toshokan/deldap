@@ -28,4 +28,10 @@
                 :attributes [:cn :member]
                 :scope :base}) '()))
 
+(defn get-user-memberships [conn user-dn]
+  (or (ldap/search conn user-dn
+               {:filter "(objectClass=inetorgperson)"
+                :attributes [:cn, :displayName, :uid, :objectClass, :memberOf]
+                :scope :base}) '()))
+
 (defstate conn :start (get-conn (:ldap config)))
