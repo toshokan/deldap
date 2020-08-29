@@ -22,4 +22,10 @@
                 :scope :one
                 :server-sort {:is-critical true :sort-keys [:uid :ascending]}}))
 
+(defn get-group-members [conn group-dn]
+  (or (ldap/search conn group-dn
+               {:filter "(objectClass=groupofnames)"
+                :attributes [:cn :member]
+                :scope :base}) '()))
+
 (defstate conn :start (get-conn (:ldap config)))

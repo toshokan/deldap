@@ -19,7 +19,9 @@
             (GET "/health" []
                  (json {:status :ok}))
             (GET "/children" [dn :as {conn :user-conn}]
-                 (json (ldap/get-children conn dn))))))
+                 (json (ldap/get-children conn dn)))
+            (GET "/members" [dn :as {conn :user-conn}]
+                 (json (ldap/get-group-members conn dn))))))
 
 (defn start-server [config]
   (-> api-routes
